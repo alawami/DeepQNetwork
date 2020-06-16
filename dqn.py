@@ -17,7 +17,19 @@ def parse_arguments(parser):
             "--env_dir", 
             type=str,
             default="Banana_Linux_NoVis/Banana.x86_64",
-            help="Directory path to the environment files"
+            help="Directory path to the environment files."
+            )
+    parser.add_argument(
+            "--model_save", 
+            type=str,
+            default="checkpoint.pth",
+            help="Path and name of file to save trained model."
+            )
+    parser.add_argument(
+            "--model_load", 
+            type=str,
+            default="Banana_Linux_NoVis/Banana.x86_64",
+            help="Path and name of file to load trained model."
             )
     parser.add_argument(
             "--n_epsisodes", 

@@ -1,5 +1,6 @@
 import argparse
 
+from unityagents import UnityEnvironment
 import numpy as np
 import random
 import torch
@@ -10,7 +11,7 @@ from dqn_agent import Agent
 
 FLAGS = None
 
-def parse_arguements(parser):
+def parse_arguments(parser):
 
     parser.add_argument(
             "--env_dir", 
@@ -92,7 +93,7 @@ def parse_arguements(parser):
             )
 
 
-def dqn(n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def dqn(env, brain_name, agent, n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     """Deep Q-Learning.
     
     Params
@@ -156,7 +157,7 @@ def main(FLAGS):
 
     agent = Agent(state_size=state_size, action_size=action_size, seed=0)
 
-    scores = dqn()
+    scores = dqn(env, brain_name, agent)
 
     # plot the scores
     fig = plt.figure()

@@ -16,14 +16,81 @@ def parse_arguements(parser):
             "--env_dir", 
             type=str,
             default="Banana_Linux_NoVis/Banana.x86_64",
-            help="Directory Path to the Environment Files"
+            help="Directory path to the environment files"
             )
     parser.add_argument(
             "--n_epsisodes", 
             type=int,
             default=2000,
-            help="Number of Episodes"
+            help="Number of episodes"
             )
+    parser.add_argument(
+            "--max_t", 
+            type=int,
+            default=1000,
+            help="Maximum number of steps per episode."
+            )
+    parser.add_argument(
+            "--eps_start", 
+            type=float,
+            default=1.0,
+            help="Starting value for epsilon."
+            )
+    parser.add_argument(
+            "--eps_end", 
+            type=float,
+            default=0.01,
+            help="Minimum value for epsilon."
+            )
+    parser.add_argument(
+            "--eps_decay", 
+            type=float,
+            default=0.995,
+            help="Decay factor for epsilon."
+            )
+    parser.add_argument(
+            "--gamma", 
+            type=float,
+            default=0.99,
+            help="Discount rate."
+            )
+    parser.add_argument(
+            "--tau", 
+            type=float,
+            default=1e-3,
+            help="Soft update blending factor."
+            )
+    parser.add_argument(
+            "--lr", 
+            type=float,
+            default=5e-4,
+            help="Learning rate."
+            )
+    parser.add_argument(
+            "--batch_size", 
+            type=int,
+            default=64,
+            help="Batch size."
+            )
+    parser.add_argument(
+            "--buffer_size", 
+            type=int,
+            default=1e5,
+            help="Replay buffer size."
+            )
+    parser.add_argument(
+            "--seed", 
+            type=int,
+            default=0,
+            help="Random seed value."
+            )
+    parser.add_argument(
+            "--device", 
+            type=str,
+            default='cpu',
+            help="cpu/gpu for CPU/GPU training and."
+            )
+
 
 def dqn(n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     """Deep Q-Learning.
@@ -76,12 +143,16 @@ def dqn(n_episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
 
     return scores
     
-def main():
-    
+def main(FLAGS):
     env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64")
     # get the default brain
     brain_name = env.brain_names[0]
     brain = env.brains[brain_name]
+    env_info = env.reset(train_mode=True)[brain_name]
+
+    action_size = brain.vector_action_space_size
+    state = env_info.vector_observations[0]
+    state_size = len(state)
 
     agent = Agent(state_size=state_size, action_size=action_size, seed=0)
 
@@ -104,4 +175,4 @@ if __name__ == '__main__':
 
     FLAGS, unparsed = parser.parse_known_args()
 
-    main()
+    main(FLAGS)

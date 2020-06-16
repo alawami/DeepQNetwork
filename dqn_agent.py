@@ -20,7 +20,7 @@ device = "cpu" # torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 class Agent():
     """Interacts with and learns from the environment."""
 
-    def __init__(self, state_size, action_size, seed):
+    def __init__(self, state_size, action_size, FLAGS):
         """Initialize an Agent object.
         
         Params
@@ -31,7 +31,7 @@ class Agent():
         """
         self.state_size = state_size
         self.action_size = action_size
-        self.seed = random.seed(seed)
+        self.seed = random.seed(FLAGS.seed)
         
         # Q-Network
         self.qnetwork_local = QNetwork(state_size, action_size, seed).to(device)

@@ -50,7 +50,7 @@ def parse_arguments(parser):
             help="Starting value for epsilon."
             )
     parser.add_argument(
-            "--eps_end", 
+            "--eps_min", 
             type=float,
             default=0.01,
             help="Minimum value for epsilon."
@@ -80,6 +80,12 @@ def parse_arguments(parser):
             help="Learning rate."
             )
     parser.add_argument(
+            "--optimizer", 
+            type=str,
+            default='adam',
+            help="Optimizer - only adam is allowed at the moment."
+            )
+    parser.add_argument(
             "--batch_size", 
             type=int,
             default=64,
@@ -90,6 +96,12 @@ def parse_arguments(parser):
             type=int,
             default=1e5,
             help="Replay buffer size."
+            )
+    parser.add_argument(
+            "--update_ever", 
+            type=int,
+            default=4,
+            help="Number of steps before updating network."
             )
     parser.add_argument(
             "--seed", 
@@ -104,6 +116,18 @@ def parse_arguments(parser):
             help="cpu/gpu for CPU/GPU training and."
             )
     parser.add_argument(
+            "--docker_training", 
+            type=bool,
+            default=True,
+            help="Whether the training is done inside a docker container."
+            )
+    parser.add_argument(
+            "--no_graphics", 
+            type=bool,
+            default=True,
+            help="Whether to run the Unit simulator in no-graphics mode."
+            )
+    parser.add_argument(
             "--score_window", 
             type=int,
             default=100,
@@ -111,7 +135,7 @@ def parse_arguments(parser):
             )
 
 
-def dqn(env, brain_name, agent, FLAGS, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+def dqn(env, brain_name, agent, FLAGS):
     """Deep Q-Learning.
     
     Params
@@ -127,10 +151,8 @@ def dqn(env, brain_name, agent, FLAGS, max_t=1000, eps_start=1.0, eps_end=0.01, 
     eps = eps_start                    # initialize epsilon
     
     for i_episode in range(1, FLAGS.n_episodes+1):
-        #print('ckpt 2')
         state = env.reset(train_mode=True)[brain_name].vector_observations[0]
         score = 0
-        #print('ckpt 3')
         for t in range(FLAGS.max_t):
             #print('\rt: ' + str(t))
 #             if (t % 4) == 0:
@@ -149,7 +171,7 @@ def dqn(env, brain_name, agent, FLAGS, max_t=1000, eps_start=1.0, eps_end=0.01, 
                 break 
         scores_window.append(score)       # save most recent score
         scores.append(score)              # save most recent score
-        eps = max(FLAGS.eps_end, FLAGS.eps_decay*eps) # decrease epsilon
+        eps = max(FLAGS.eps_min, FLAGS.eps_decay*eps) # decrease epsilon
         print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)), end="")
         if i_episode % 100 == 0:
             print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)))
@@ -163,7 +185,8 @@ def dqn(env, brain_name, agent, FLAGS, max_t=1000, eps_start=1.0, eps_end=0.01, 
     return scores
     
 def main(FLAGS):
-    env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64")
+    #env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64", docker_training=FLAGS.docker_training, no_graphics=FLAGS.no_graphics)
+    env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64",  no_graphics=FLAGS.no_graphics)
     # get the default brain
     brain_name = env.brain_names[0]
     brain = env.brains[brain_name]
@@ -173,7 +196,7 @@ def main(FLAGS):
     state = env_info.vector_observations[0]
     state_size = len(state)
 
-    agent = Agent(state_size=state_size, action_size=action_size, seed=0)
+    agent = Agent(state_size=state_size, action_size=action_size, FLAGS)
 
     scores = dqn(env, brain_name, agent, FLAGS)
 

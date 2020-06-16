@@ -135,7 +135,7 @@ def parse_arguments(parser):
             )
 
 
-def dqn(env, brain_name, agent, FLAGS):
+def dqn(env, brain_name, agent, n_episodes=2000, max_t=1000, eps_start=1.0, eps_min=0.01, eps_decay=0.995, **kwargs):
     """Deep Q-Learning.
     
     Params
@@ -150,10 +150,10 @@ def dqn(env, brain_name, agent, FLAGS):
     scores_window = deque(maxlen=100)  # last 100 scores
     eps = eps_start                    # initialize epsilon
     
-    for i_episode in range(1, FLAGS.n_episodes+1):
+    for i_episode in range(1, n_episodes+1):
         state = env.reset(train_mode=True)[brain_name].vector_observations[0]
         score = 0
-        for t in range(FLAGS.max_t):
+        for t in range(max_t):
             #print('\rt: ' + str(t))
 #             if (t % 4) == 0:
 #                 action = agent.act(state, eps)
@@ -171,7 +171,7 @@ def dqn(env, brain_name, agent, FLAGS):
                 break 
         scores_window.append(score)       # save most recent score
         scores.append(score)              # save most recent score
-        eps = max(FLAGS.eps_min, FLAGS.eps_decay*eps) # decrease epsilon
+        eps = max(eps_min, eps_decay*eps) # decrease epsilon
         print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)), end="")
         if i_episode % 100 == 0:
             print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)))
@@ -196,9 +196,10 @@ def main(FLAGS):
     state = env_info.vector_observations[0]
     state_size = len(state)
 
-    agent = Agent(state_size=state_size, action_size=action_size, FLAGS)
+    FLAGS = vars(FLAGS)
+    agent = Agent(state_size=state_size, action_size=action_size, **FLAGS)
 
-    scores = dqn(env, brain_name, agent, FLAGS)
+    scores = dqn(env, brain_name, agent, **FLAGS)
 
     # plot the scores
     fig = plt.figure()

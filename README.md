@@ -22,7 +22,11 @@ The task is episodic, and in order to solve the environment, the agent must get 
 
 ### Getting Started
 
-1. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
+The following steps assumes that you have Docker installed on a Linux based system. You can installed by following the steps [here] (https://docs.docker.com/engine/install/)
+
+1. Clone repository.
+
+2. Download the environment from one of the links below.  You need only select the environment that matches your operating system:
     - Linux: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip)
     - Mac OSX: [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana.app.zip)
     - Windows (32-bit): [click here](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86.zip)
@@ -32,7 +36,15 @@ The task is episodic, and in order to solve the environment, the agent must get 
 
     (_For AWS_) If you'd like to train the agent on AWS (and have not [enabled a virtual screen](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md)), then please use [this link](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux_NoVis.zip) to obtain the environment.
 
-2. Place the file in the DeepQNetwork GitHub repository and unzip (or decompress) the file. 
+3. Place the file in the DeepQNetwork GitHub repository and unzip (or decompress) the file.
+
+4. Start docker by running the command: `./start_docker`
+
+5. Make sure conda environment `rl` is activated.
+
+6. You can train an agent using the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python run_model.py --help`.
+
+
 
 ### Instructions
 

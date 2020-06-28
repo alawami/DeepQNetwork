@@ -1,0 +1,6 @@
+Banana_Linux/
+Banana_Linux_NoVis/
+docker/
+unity-environment.log
+__pycache__/
+.ipynb_checkpoints/

@@ -42,13 +42,10 @@ The following steps assumes that you have Docker installed on a Linux based syst
 
 5. Make sure conda environment `rl` is activated.
 
-6. You can train an agent using the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python run_model.py --help`.
-
-
 
 ### Instructions
 
-To get started with training your own agent...
+To get started with training your own agent run the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python run_model.py --help`.
 
 ### (To Do) Learning from Pixels
 

@@ -45,7 +45,7 @@ The following steps assumes that you have Docker installed on a Linux based syst
 
 ### Instructions
 
-To get started with training your own agent run the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python run_model.py --help`.
+To get started with training your own agent run the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python dqn.py --help`.
 
 ### (To Do) Learning from Pixels
 

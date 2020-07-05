@@ -42,6 +42,8 @@ The following steps assumes that you have Docker installed on a Linux based syst
 
 5. Make sure conda environment `rl` is activated.
 
+6. To run on latest RTX GPUs, you may also need to run `conda install -c pytoch pytorch=0.4`.
+
 
 ### Instructions
 

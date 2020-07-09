@@ -32,7 +32,7 @@ class Agent():
         self.LR = lr                    # learning rate 
         self.UPDATE_EVERY = update_every# how often to update the network
 
-        self.device = "cpu" # torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         
         # Q-Network
         self.qnetwork_local = QNetwork(state_size, action_size, seed).to(self.device)

@@ -49,6 +49,27 @@ The following steps assumes that you have Docker installed on a Linux based syst
 
 To get started with training your own agent run the command: `python run_model.py`. To know more about the argument you may pass to the agent run `python dqn.py --help`.
 
+### Network and Hyperparameters
+
+The network architecture and hyperparameters used to train are as follows:
+
+- Replay Buffer Size = 100,000
+- Batch Size = 64
+- Optimizer: Adam
+- Learning Rate = 5 x 10^-4
+- Tau = 1 x 10^-3
+- Gamma = 0.99
+- Epsilon decay rate = 0.995
+- Minimum epsilon value = 0.01
+- Update frequency is every 4 steps
+
+Network:
+
+MLP:
+- Layer 1: 128 neurons
+- Layer 2: 64 neurons
+
+
 ### (To Do) Learning from Pixels
 
 So far the agent learned from information such as its velocity, along with ray-based perception of objects around its forward direction.  A more challenging task would be to learn directly from pixels!
